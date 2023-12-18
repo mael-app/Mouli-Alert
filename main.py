@@ -95,7 +95,6 @@ def check_data(job, project_name, commit_hash):
 
 
 def main():
-    load_dotenv()
     global count
     token = os.getenv("TOKEN")
 
@@ -114,6 +113,7 @@ def main():
 
 
 if __name__ == "__main__":
+    load_dotenv()
     send_restart()
     while True:
         try:
