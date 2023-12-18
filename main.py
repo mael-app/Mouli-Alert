@@ -104,4 +104,4 @@ if __name__ == "__main__":
             main()
         except Exception as e:
             print("Error while running main function : ", e)
-        time.sleep(5)
+        time.sleep(int(os.getenv("TIME")))
