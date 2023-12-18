@@ -29,7 +29,6 @@ def send_restart():
 
 def send_webhook(job):
     if count == 1:
-        send_restart()
         return
     date_obj = datetime.strptime(job["date"], "%Y-%m-%dT%H:%M:%S.%fZ")
     date = date_obj.strftime("%d/%m/%y, %H:%M:%S")
@@ -115,6 +114,7 @@ def main():
 
 
 if __name__ == "__main__":
+    send_restart()
     while True:
         try:
             main()
