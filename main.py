@@ -88,6 +88,7 @@ def send_webhook(job):
 def check_data(job, project_name, commit_hash):
     if project_name in hashmap:
         if hashmap[project_name] != commit_hash:
+            hashmap[project_name] = commit_hash
             send_webhook(job)
     else:
         hashmap[project_name] = commit_hash
