@@ -107,6 +107,8 @@ def main():
     print("Checking moulinette data: ", count)
     count += 1
     for job in full_data["jobs"]:
+        if "gitCommit" not in job["trace"]:
+            continue
         git_commit = job["trace"]["gitCommit"]
         project_name = job["trace"]["instance"]["projectName"]
         check_data(job, project_name, git_commit)
