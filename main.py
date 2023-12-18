@@ -12,8 +12,24 @@ YELLOW = 16705372
 GREEN = 5763719
 
 
+def send_restart():
+    requests.post(os.getenv("WEBHOOK_URL"), json={
+        "content": None,
+        "embeds": [
+            {
+                "description": "**Le serveur a été redémarré !**",
+                "color": 3158326
+            }
+        ],
+        "username": "Alerte Moulinette",
+        "avatar_url": "https://cdn.discordapp.com/attachments/785951129187778614/1184883690283741295/BjbgphqX3BpyAAAAAElFTkSuQmCC.png?ex=658d97ed&is=657b22ed&hm=ddbb51c4efbe4ecf213861a1ecd595e79df070b58975cf5035391678777c4077&",
+        "attachments": []
+    })
+
+
 def send_webhook(job):
     if count == 1:
+        send_restart()
         return
     date_obj = datetime.strptime(job["date"], "%Y-%m-%dT%H:%M:%S.%fZ")
     date = date_obj.strftime("%d/%m/%y, %H:%M:%S")
