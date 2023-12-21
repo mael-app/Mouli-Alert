@@ -43,7 +43,7 @@ def send_webhook(job):
     else:
         color = RED
     requests.post(os.getenv("WEBHOOK_URL"), json={
-        "content": "<@{}>".format(os.getenv("USER")),
+        "content": "<@{}>".format(os.getenv("DISCORD_ID")),
         "embeds": [
             {
                 "title": "Une nouvelle moulinette est disponible !",
