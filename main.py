@@ -12,16 +12,25 @@ YELLOW = 16705372
 GREEN = 5763719
 
 
-def send_restart():
+def send_error(error):
+    requests.post(os.getenv("WEBHOOK_URL"), json={
+        "content": error,
+        "username": "Mouli Alert",
+        "avatar_url": "https://cdn.discordapp.com/attachments/785951129187778614/1184883690283741295/BjbgphqX3BpyAAAAAElFTkSuQmCC.png?ex=658d97ed&is=657b22ed&hm=ddbb51c4efbe4ecf213861a1ecd595e79df070b58975cf5035391678777c4077&",
+        "attachments": []
+    })
+
+
+def send_message(message):
     requests.post(os.getenv("WEBHOOK_URL"), json={
         "content": None,
         "embeds": [
             {
-                "description": "**Le serveur a été redémarré !**",
+                "description": "{}".format(message),
                 "color": 3158326
             }
         ],
-        "username": "Alerte Moulinette",
+        "username": "Mouli Alert",
         "avatar_url": "https://cdn.discordapp.com/attachments/785951129187778614/1184883690283741295/BjbgphqX3BpyAAAAAElFTkSuQmCC.png?ex=658d97ed&is=657b22ed&hm=ddbb51c4efbe4ecf213861a1ecd595e79df070b58975cf5035391678777c4077&",
         "attachments": []
     })
@@ -117,10 +126,15 @@ def main():
 
 if __name__ == "__main__":
     load_dotenv()
-    send_restart()
-    while True:
-        try:
-            main()
-        except Exception as e:
-            print("Error while running main function : ", e)
-        time.sleep(int(os.getenv("TIME")))
+    send_message("**Mouli Alert is now running!**")
+    try:
+        while True:
+            try:
+                main()
+            except Exception as e:
+                print("Error while running main function : ", e)
+            time.sleep(int(os.getenv("TIME")))
+
+    except KeyboardInterrupt:
+        send_message("**Mouli Alert has been stopped!**")
+        exit(0)
