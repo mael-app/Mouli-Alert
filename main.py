@@ -1,6 +1,7 @@
 import requests
 from dotenv import load_dotenv
 from datetime import datetime
+from loguru import logger
 import time
 import os
 
@@ -111,10 +112,12 @@ def main():
     data = requests.get("https://tekme.eu/api/profile/moulinettes", headers={'Authorization': token})
     if data.status_code != 200:
         print("Error while getting moulinette data (status code {})".format(data.status_code))
+        send_error("Error while getting moulinette data (status code {})".format(data.status_code))
+        logger.error("Error while getting moulinette data (status code {})".format(data.status_code))
         return
     full_data = data.json()
 
-    print("Checking moulinette data: ", count)
+    logger.info("Checking for new moulinette... (nb: {})".format(count))
     count += 1
     for job in full_data["jobs"]:
         if "gitCommit" not in job["trace"]:
@@ -127,12 +130,16 @@ def main():
 if __name__ == "__main__":
     load_dotenv()
     send_message("**Mouli Alert is now running!**")
+    logger.remove(0)
+    logger.add("app.log", format="{level} : {time} : {message}: {process}")
     try:
         while True:
             try:
                 main()
             except Exception as e:
                 print("Error while running main function : ", e)
+                send_error("Error while running main function : {}".format(e))
+                logger.error("Error while running main function : {}".format(e))
             time.sleep(int(os.getenv("TIME")))
 
     except KeyboardInterrupt:
