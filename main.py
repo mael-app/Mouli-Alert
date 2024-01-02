@@ -130,6 +130,7 @@ def main():
 if __name__ == "__main__":
     load_dotenv()
     send_message("**Mouli Alert is now running!**")
+    print("Mouli Alert is now running!")
     logger.remove(0)
     logger.add("app.log", format="{level} : {time} : {message}: {process}")
     try:
